@@ -74,15 +74,8 @@ void pre_auton(void)
     Brain.Screen.print("inertial 2 calibrating\n");
     wait(50, msec);
   }
-  Controller.Screen.clearScreen();
-  Controller.Screen.setCursor(1, 1);
-  Controller.Screen.print("a = left\n");
-  Controller.Screen.setCursor(2, 1);
-  Controller.Screen.print("b = right\n");
-  Controller.Screen.setCursor(3, 1);
-  Controller.Screen.print("x = skills");
- }
 
+}
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
 /*                              Autonomous Task                              */
@@ -103,8 +96,7 @@ void stopIntake();
 void autonomous(void)
 {
   
-  if (baleft)
-  {
+  if (baleft){
     thread([]()
     {
       intakeBasket(100);
@@ -146,8 +138,7 @@ void autonomous(void)
     // // scoreHigh(100);
 
   }
-  if (balright)
-  {
+  if (balright){
     thread([]()
     {
       intakeBasket(100);
@@ -171,8 +162,7 @@ void autonomous(void)
     
     printf("tounge value = %s\n", tounge.value()? "true":"false");
     wait(0.5, sec);
-    thread([]()
-    {
+    thread([](){
       intakeBasket(100);
       wait(2, sec);
       scoreHigh(100);
@@ -223,6 +213,7 @@ void a()
 }
 
 void b()
+
 {
   baleft = 0;
   balright = 1;
@@ -231,6 +222,7 @@ void b()
   Controller.Screen.print("right auto selected");
   evan = 1;
 }
+
 void x()
 {
   baleft = 0;
@@ -241,27 +233,35 @@ void x()
   Controller.Screen.print("skills auto selected");
   evan = 1;
 }
+
 void toggle_tounge()
 {
   tounge.set(!tounge.value());
 }
-void toggle_wing(){
+
+void toggle_wing()
+{
   wing.set(!wing.value());
 }
-void intakeBasket(float speed){
+
+void intakeBasket(float speed)
+{
   basket.set(true);
   wing.set(true);
   Intake.spin(fwd, speed, pct);
   middleRoller.spin(fwd, speed, pct);
-  topRoller.spin(fwd, speed, pct);
-  
+  topRoller.spin(fwd, speed, pct);  
 }
-void outtake(float speed){
+
+void outtake(float speed)
+{
   Intake.spin(reverse, speed, pct);
   middleRoller.spin(reverse, speed, pct);
   topRoller.spin(reverse, speed, pct);
 }
-void scoreHigh(float speed){
+
+void scoreHigh(float speed)
+{
   basket.set(false);
   wing.set(false);
   Intake.spin(fwd, speed, pct);
@@ -270,7 +270,9 @@ void scoreHigh(float speed){
   
 
 }
-void scoreMiddle(float speed){
+
+void scoreMiddle(float speed)
+{
   wing.set(false);
   basket.set(false);
   Intake.spin(fwd, speed, pct);
@@ -278,11 +280,14 @@ void scoreMiddle(float speed){
   topRoller.spin(fwd, speed, pct);
   
 }
-void stopIntake(){
+
+void stopIntake()
+{
   Intake.stop();
   middleRoller.stop();
   topRoller.stop();
 }
+
 void toggle_intake()
 {
   sdiybt = 1 - sdiybt;
@@ -376,8 +381,7 @@ Controller.ButtonY.pressed(toggle_intake);
 //
 // Main will set up the competition functions and callbacks.
 //
-int main()
-{
+int main(){
 
   Brain.Screen.drawRectangle(0, 0, 160, 240);
   Brain.Screen.drawRectangle(160, 0, 160, 240);
@@ -400,18 +404,37 @@ int main()
         Brain.Screen.clearScreen();
         Brain.Screen.setCursor(6, 23);
         Brain.Screen.print("Left Selected");
+        baleft = 1;
+        balright = 0;
+        Controller.Screen.clearScreen();
+        Controller.Screen.setCursor(1, 1);
+        Controller.Screen.print("left auto selected");
+        evan = 1;
       }
 
-      else if(Brain.Screen.xPosition() < 240 && Brain.Screen.xPosition() > 160) {
+      else if(Brain.Screen.xPosition() < 330 && Brain.Screen.xPosition() > 160) {
         Brain.Screen.clearScreen();
         Brain.Screen.setCursor(6, 23);
         Brain.Screen.print("Right Selected");
+        baleft = 0;
+        balright = 1;
+        Controller.Screen.clearScreen();
+        Controller.Screen.setCursor(1, 1);
+        Controller.Screen.print("right auto selected");
+        evan = 1;
       }
 
-      else if(Brain.Screen.xPosition() < 320 && Brain.Screen.xPosition() > 240) {
+      else if(Brain.Screen.xPosition() > 330) {
         Brain.Screen.clearScreen();
         Brain.Screen.setCursor(6, 23);
         Brain.Screen.print("Skills Selected");
+        baleft = 0;
+        balright = 0;
+        fin = 1;
+        Controller.Screen.clearScreen();
+        Controller.Screen.setCursor(1, 1);
+        Controller.Screen.print("skills auto selected");
+        evan = 1;
       }
     
     }
