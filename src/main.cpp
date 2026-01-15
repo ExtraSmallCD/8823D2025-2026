@@ -378,6 +378,47 @@ Controller.ButtonY.pressed(toggle_intake);
 //
 int main()
 {
+
+  Brain.Screen.drawRectangle(0, 0, 160, 240);
+  Brain.Screen.drawRectangle(160, 0, 160, 240);
+  Brain.Screen.drawRectangle(320, 0, 160, 240);
+
+  Brain.Screen.setCursor(6, 6);
+  Brain.Screen.print("Left");
+  
+  Brain.Screen.setCursor(6, 22);
+  Brain.Screen.print("Right");
+  
+  Brain.Screen.setCursor(6, 39);
+  Brain.Screen.print("Skills");
+  
+  while(true) {
+  
+    if (Brain.Screen.pressing()) {
+      
+      if (Brain.Screen.xPosition() < 160) {
+        Brain.Screen.clearScreen();
+        Brain.Screen.setCursor(6, 23);
+        Brain.Screen.print("Left Selected");
+      }
+
+      else if(Brain.Screen.xPosition() < 240 && Brain.Screen.xPosition() > 160) {
+        Brain.Screen.clearScreen();
+        Brain.Screen.setCursor(6, 23);
+        Brain.Screen.print("Right Selected");
+      }
+
+      else if(Brain.Screen.xPosition() < 320 && Brain.Screen.xPosition() > 240) {
+        Brain.Screen.clearScreen();
+        Brain.Screen.setCursor(6, 23);
+        Brain.Screen.print("Skills Selected");
+      }
+    
+    }
+  
+  }
+
+
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
